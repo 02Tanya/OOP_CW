@@ -17,3 +17,6 @@ def __lt__(self, other):
     if self.salary and other.salary:
 
     return self.salary < other.salary
+
+if __name__ == "__main__":
+    main()
