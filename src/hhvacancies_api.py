@@ -3,7 +3,7 @@ from src.abstract_classes import VacancyAPI
 
 
 class HHVacancyAPI(VacancyAPI):
-    """Класс для работы с получением вакнсий с сайта hh.ru"""
+    '''Класс для получения вакнсий с сайта hh.ru'''
 
     url_get = "https://api.hh.ru/vacancies"
 

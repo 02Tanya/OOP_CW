@@ -1,12 +1,10 @@
 import datetime
 import json
-from src.hh_vacancies_api import HHVacancyAPI
+from src.hhvacancies_api import HHVacancyAPI
 
 
 class Vacancy:
-    """
-    Класс для работы с вакансиями.
-    """
+    '''Класс для работы с вакансиями'''
 
     all = []
 
@@ -82,11 +80,7 @@ class Vacancy:
 
     @classmethod
     def instance_from_list(cls, vacancy_title) -> None:
-        """
-        Метод, инициализирующий экземпляры класса из списка
-        :param vacancy_title: Название вакансии
-        :return:
-        """
+        '''Метод для инициализации экземпляров класса из списка'''
         hh_vacancies = HHVacancyAPI().get_vacancies(vacancy_title)
         for hh_vacancy in hh_vacancies:
             title = hh_vacancy["name"]
@@ -105,11 +99,7 @@ class Vacancy:
 
     @classmethod
     def instance_from_json(cls, filename="../vacancies.json") -> None:
-        """
-        Метод, инициализирующий экземпляр класса из json-файла
-        :param filename: Название файла
-        :return: None
-        """
+        '''Метод для инициализации экземпляров класса из json-файла'''
         cls.all = []
         try:
             with open(filename, "rt", encoding="utf-8") as file:
@@ -128,11 +118,7 @@ class Vacancy:
 
     @classmethod
     def filtering_vacancies_by_city(cls, city) -> list:
-        """
-        Метод, фильтрующий список вакансий по названию города
-        :param city: Город
-        :return: Список вакансий из указанного города
-        """
+        '''Метод для фильтрации списка вакансий по названию города'''
         vacancies_city = []
         vacancies = cls.all
         for vacancy in vacancies:
@@ -142,11 +128,7 @@ class Vacancy:
 
     @classmethod
     def filtering_vacancies_by_salary(cls, salary) -> list:
-        """
-        Метод, фильтрующий список вакансий по заработной плате
-        :param salary: Минимальная зарплата для вывода
-        :return: Список вакансий с зарплатой большей или равной указанной
-        """
+        '''Метод для фильтрации списка вакансий по заработной плате'''
         vacancies_salary = []
         vacancies = Vacancy.filters_the_list(Vacancy.all)
         for vacancy in vacancies:
@@ -158,11 +140,7 @@ class Vacancy:
 
     @staticmethod
     def sort_the_list(vacancies) -> list:
-        """
-        Статический метод, который сортирует список вакансий по зарплате.
-        :param vacancies: Список вакансий
-        :return: Отсортированный список вакансий
-        """
+        '''Статический метод для сортировки списка вакансий по заработной плате'''
         vacancies_filter = Vacancy.filters_the_list(vacancies)
         vacancies_sort = sorted(
             vacancies_filter, key=lambda s: s["_Vacancy__salary"], reverse=True
@@ -171,11 +149,7 @@ class Vacancy:
 
     @staticmethod
     def filters_the_list(all_vacancies):
-        """
-        Статический метод, который фильтрует список вакансий по зарплате.
-        :param all_vacancies: Список вакансий
-        :return: Список содержащий те вакансии, где указана зарплата в RUR
-        """
+        '''Статический метод для фильтрации списка вакансий по заработной плате'''
         vacancies = []
         for vacancy in all_vacancies:
             if (
@@ -187,12 +161,7 @@ class Vacancy:
 
     @staticmethod
     def print_formatted_vacancies_list(list_vacancies, number_vacancies=None) -> None:
-        """
-        Печатает данные о вакансиях для пользователя
-        :param list_vacancies: Список вакансий
-        :param number_vacancies: Количество вакансий для вывода
-        :return: None
-        """
+        '''Выводит данные о вакансиях для пользователя'''
         if not list_vacancies:
             print("В файле отсутствуют данные о вакансиях")
         else:
