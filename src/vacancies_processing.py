@@ -79,7 +79,7 @@ class Vacancy:
         return int(self.salary) >= int(other.salary)
 
     @classmethod
-    def instance_from_list(cls, vacancy_title) -> None:
+    def data_from_list(cls, vacancy_title) -> None:
         '''Метод для инициализации экземпляров класса из списка'''
         hh_vacancies = HHVacancyAPI().get_vacancies(vacancy_title)
         for hh_vacancy in hh_vacancies:
@@ -91,14 +91,12 @@ class Vacancy:
             else:
                 salary = None
                 salary_currency = None
-            date = datetime.datetime.strptime(
-                hh_vacancy["published_at"], "%Y-%m-%dT%H:%M:%S+%f"
-            ).strftime("%d.%m.%Y")
+            date = datetime.datetime.strptime(hh_vacancy["published_at"], "%Y-%m-%dT%H:%M:%S+%f").strftime("%d.%m.%Y")
             city = hh_vacancy["area"]["name"]
             cls(title, url, salary, salary_currency, date, city)
 
     @classmethod
-    def instance_from_json(cls, filename="../vacancies.json") -> None:
+    def data_from_json(cls, filename="../vacancies.json") -> None:
         '''Метод для инициализации экземпляров класса из json-файла'''
         cls.all = []
         try:
@@ -114,17 +112,30 @@ class Vacancy:
                         line["_Vacancy__city"],
                     )
         except FileNotFoundError:
-            print("Отсутствует файл для чтения")
+            print("Отсутствует файл для обработки")
+
+
+    @staticmethod
+    def filters_the_list(all_vacancies):
+        '''Статический метод для фильтрации списка вакансий по заработной плате'''
+        vacancies = []
+        for vacancy in all_vacancies:
+            if vacancy.get("_Vacancy__salary") is not None and vacancy.get(
+                    "_Vacancy__salary_currency") == "RUR":
+                vacancies.append(vacancy)
+        return vacancies
+
 
     @classmethod
     def filtering_vacancies_by_city(cls, city) -> list:
         '''Метод для фильтрации списка вакансий по названию города'''
         vacancies_city = []
-        vacancies = cls.all
+        vacancies = Vacancy.filters_the_list(Vacancy.all)
         for vacancy in vacancies:
-            if vacancy["_Vacancy__city"] == city:
+            if vacancy.get('_Vacancy__city') == city:
                 vacancies_city.append(vacancy)
-            return vacancies_city
+        return vacancies_city
+
 
     @classmethod
     def filtering_vacancies_by_salary(cls, salary) -> list:
@@ -142,22 +153,9 @@ class Vacancy:
     def sort_the_list(vacancies) -> list:
         '''Статический метод для сортировки списка вакансий по заработной плате'''
         vacancies_filter = Vacancy.filters_the_list(vacancies)
-        vacancies_sort = sorted(
-            vacancies_filter, key=lambda s: s["_Vacancy__salary"], reverse=True
-        )
+        vacancies_sort = sorted(vacancies_filter, key=lambda s: s["_Vacancy__salary"], reverse=True)
         return vacancies_sort
 
-    @staticmethod
-    def filters_the_list(all_vacancies):
-        '''Статический метод для фильтрации списка вакансий по заработной плате'''
-        vacancies = []
-        for vacancy in all_vacancies:
-            if (
-                vacancy.get("_Vacancy__salary") is not None
-                and vacancy.get("_Vacancy__salary_currency") == "RUR"
-            ):
-                vacancies.append(vacancy)
-        return vacancies
 
     @staticmethod
     def print_formatted_vacancies_list(list_vacancies, number_vacancies=None) -> None:

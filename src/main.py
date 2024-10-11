@@ -1,7 +1,7 @@
 from time import sleep
 from src.hhvacancies_api import HHVacancyAPI
 from src.data_processing import JSONVacancyData
-from src.utils import display_top_vacancies_by_salary, filter_vacancies_cityname, \
+from src.utils import display_top_vacancies_by_salary, filter_vacancies_city, \
     filter_vacancies_salary
 from src.vacancies_processing import Vacancy
 
@@ -15,7 +15,7 @@ def user_search():
             continue
         else:
             break
-    Vacancy.instance_from_list(vacancy_title)
+    Vacancy.data_from_list(vacancy_title)
     print(f"Список вакансий по ключевому слову --{vacancy_title}-- сформирован.")
 
     while True:
@@ -44,7 +44,7 @@ def user_search():
         elif user_input == "3":
             display_top_vacancies_by_salary()
         elif user_input == "4":
-            filter_vacancies_cityname()
+            filter_vacancies_city()
         elif user_input == "5":
             filter_vacancies_salary()
         elif user_input == "6":
