@@ -21,9 +21,3 @@ class HHVacancyAPI(VacancyAPI):
             return response_json.get("items", [])
         except requests.exceptions.RequestException as error:
             print(f"Ошибка получения данных: {error}")
-
-
-# if __name__ == "__main__":
-#     find = HHVacancyAPI()
-#     vacancies = find.get_vacancies("java")
-#     print(vacancies)
