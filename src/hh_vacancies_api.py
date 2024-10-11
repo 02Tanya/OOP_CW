@@ -1,9 +1,10 @@
 import requests
-from src.classes import VacancyAPI
+from src.abstract_classes import VacancyAPI
 
 
 class HHVacancyAPI(VacancyAPI):
-    """Класс для работы с API hh.ru"""
+    """Класс для работы с получением вакнсий с сайта hh.ru"""
+
     url_get = 'https://api.hh.ru/vacancies'
 
     def __init__(self, url=url_get):
@@ -15,13 +16,13 @@ class HHVacancyAPI(VacancyAPI):
             response = requests.get(self.url_get, params=params)
             response.raise_for_status()
             response_json = response.json()
+            # print(response.status_code)
             return response_json.get('items', [])
-        # print(response.status_code)
         except requests.exceptions.RequestException as error:
             print(f'Ошибка получения данных: {error}')
 
 
 if __name__ == '__main__':
     find = HHVacancyAPI()
-    vacancies = find.get_vacancies('python')
+    vacancies = find.get_vacancies('java')
     print(vacancies)
