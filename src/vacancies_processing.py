@@ -1,6 +1,5 @@
 import datetime
 import json
-
 from src.hh_vacancies_api import HHVacancyAPI
 
 
@@ -84,7 +83,7 @@ class Vacancy:
     @classmethod
     def instance_from_list(cls, vacancy_title) -> None:
         """
-        Метод класса инициализирующий экземпляры класса данными из списка.
+        Метод, инициализирующий экземпляры класса из списка
         :param vacancy_title: Название вакансии
         :return:
         """
@@ -107,7 +106,7 @@ class Vacancy:
     @classmethod
     def instance_from_json(cls, filename="../vacancies.json") -> None:
         """
-        Метод класса инициализирующий экземпляр класса данными из json-файла.
+        Метод, инициализирующий экземпляр класса из json-файла
         :param filename: Название файла
         :return: None
         """
@@ -130,7 +129,7 @@ class Vacancy:
     @classmethod
     def filtering_vacancies_by_city(cls, city) -> list:
         """
-        Метод класса фильтрующий список вакансий по городу
+        Метод, фильтрующий список вакансий по названию города
         :param city: Город
         :return: Список вакансий из указанного города
         """
@@ -144,7 +143,7 @@ class Vacancy:
     @classmethod
     def filtering_vacancies_by_salary(cls, salary) -> list:
         """
-        Метод класса фильтрующий список вакансий по зарплате.
+        Метод, фильтрующий список вакансий по заработной плате
         :param salary: Минимальная зарплата для вывода
         :return: Список вакансий с зарплатой большей или равной указанной
         """
@@ -202,7 +201,7 @@ class Vacancy:
             for index in range(number_vacancies):
                 if list_vacancies[index]["_Vacancy__salary"]:
                     print(
-                        f"Профессия: {list_vacancies[index]['_Vacancy__title']}, зарплата до "
+                        f"Вакансия: {list_vacancies[index]['_Vacancy__title']}, зарплата до "
                         f"{list_vacancies[index]['_Vacancy__salary']}"
                         f" {list_vacancies[index]['_Vacancy__salary_currency']}, дата публикации: "
                         f"{list_vacancies[index]['_Vacancy__date']}, город: {list_vacancies[index]['_Vacancy__city']}, "
@@ -210,7 +209,7 @@ class Vacancy:
                     )
                 else:
                     print(
-                        f"Профессия: {list_vacancies[index]['_Vacancy__title']}, зарплата не указана, дата публикации: "
+                        f"Вакансия: {list_vacancies[index]['_Vacancy__title']}, зарплата не указана, дата публикации: "
                         f"{list_vacancies[index]['_Vacancy__date']}, город: {list_vacancies[index]['_Vacancy__city']}, "
                         f"url: {list_vacancies[index]['_Vacancy__url']}"
                     )
