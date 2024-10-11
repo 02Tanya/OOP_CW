@@ -20,10 +20,6 @@ def display_top_vacancies_by_salary():
 
 def filter_vacancies_cityname():
     '''Фильтрует вакансии по городу'''
-    param_number = input("Выберите параметр для фильтра вакансий: \n"
-                         "1 - Название города " "\n"
-                         "2 - Минимальная величина заработной платы\n"
-    )
     user_city = input("Пожалуйста, ведите название города:\n")
     vacancies_city = Vacancy.filtering_vacancies_by_city(user_city)
     if vacancies_city:
