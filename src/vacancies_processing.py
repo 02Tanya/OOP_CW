@@ -8,6 +8,7 @@ class Vacancy:
     """
     Класс для работы с вакансиями.
     """
+
     all = []
 
     def __init__(self, title, url, salary, salary_currency, date, city):
@@ -68,9 +69,11 @@ class Vacancy:
         self.__city = city_vacancy
 
     def __str__(self):
-        return (f'Вакансия: {self.title}, зарплата до {self.salary} '
-                f'{self.salary_currency}, дата публикации: {self.date}, '
-                f'город: {self.city}, url: {self.url}')
+        return (
+            f"Вакансия: {self.title}, зарплата до {self.salary} "
+            f"{self.salary_currency}, дата публикации: {self.date}, "
+            f"город: {self.city}, url: {self.url}"
+        )
 
     def __gt__(self, other):
         return int(self.salary) > int(other.salary)
@@ -87,24 +90,22 @@ class Vacancy:
         """
         hh_vacancies = HHVacancyAPI().get_vacancies(vacancy_title)
         for hh_vacancy in hh_vacancies:
-            title = hh_vacancy['name']
-            url = hh_vacancy['alternate_url']
-            if hh_vacancy['salary']:
-                salary = hh_vacancy['salary']['from']
-                salary_currency = hh_vacancy['salary']['currency']
+            title = hh_vacancy["name"]
+            url = hh_vacancy["alternate_url"]
+            if hh_vacancy["salary"]:
+                salary = hh_vacancy["salary"]["from"]
+                salary_currency = hh_vacancy["salary"]["currency"]
             else:
                 salary = None
                 salary_currency = None
             date = datetime.datetime.strptime(
-                hh_vacancy['published_at'], '%Y-%m-%dT%H:%M:%S+%f'
-                ).strftime(
-                "%d.%m.%Y"
-            )
-            city = hh_vacancy['area']['name']
+                hh_vacancy["published_at"], "%Y-%m-%dT%H:%M:%S+%f"
+            ).strftime("%d.%m.%Y")
+            city = hh_vacancy["area"]["name"]
             cls(title, url, salary, salary_currency, date, city)
 
     @classmethod
-    def instance_from_json(cls, filename='../vacancies.json') -> None:
+    def instance_from_json(cls, filename="../vacancies.json") -> None:
         """
         Метод класса инициализирующий экземпляр класса данными из json-файла.
         :param filename: Название файла
@@ -112,15 +113,19 @@ class Vacancy:
         """
         cls.all = []
         try:
-            with open(filename, 'rt', encoding='utf-8') as file:
+            with open(filename, "rt", encoding="utf-8") as file:
                 data = json.load(file)
                 for line in data:
-                    cls(line["_Vacancy__title"], line["_Vacancy__url"],
-                        line["_Vacancy__salary"], line[
-                            "_Vacancy__salary_currency"],
-                        line["_Vacancy__date"], line["_Vacancy__city"])
+                    cls(
+                        line["_Vacancy__title"],
+                        line["_Vacancy__url"],
+                        line["_Vacancy__salary"],
+                        line["_Vacancy__salary_currency"],
+                        line["_Vacancy__date"],
+                        line["_Vacancy__city"],
+                    )
         except FileNotFoundError:
-            print('Отсутствует файл для чтения')
+            print("Отсутствует файл для чтения")
 
     @classmethod
     def filtering_vacancies_by_city(cls, city) -> list:
@@ -132,7 +137,7 @@ class Vacancy:
         vacancies_city = []
         vacancies = cls.all
         for vacancy in vacancies:
-            if vacancy['_Vacancy__city'] == city:
+            if vacancy["_Vacancy__city"] == city:
                 vacancies_city.append(vacancy)
             return vacancies_city
 
@@ -160,8 +165,9 @@ class Vacancy:
         :return: Отсортированный список вакансий
         """
         vacancies_filter = Vacancy.filters_the_list(vacancies)
-        vacancies_sort = sorted(vacancies_filter, key=lambda s: s[
-            "_Vacancy__salary"], reverse=True)
+        vacancies_sort = sorted(
+            vacancies_filter, key=lambda s: s["_Vacancy__salary"], reverse=True
+        )
         return vacancies_sort
 
     @staticmethod
@@ -173,8 +179,10 @@ class Vacancy:
         """
         vacancies = []
         for vacancy in all_vacancies:
-            if vacancy.get("_Vacancy__salary") is not None and vacancy.get(
-                    "_Vacancy__salary_currency") == "RUR":
+            if (
+                vacancy.get("_Vacancy__salary") is not None
+                and vacancy.get("_Vacancy__salary_currency") == "RUR"
+            ):
                 vacancies.append(vacancy)
         return vacancies
 
@@ -187,14 +195,12 @@ class Vacancy:
         :return: None
         """
         if not list_vacancies:
-            print('В файле отсутствуют данные о вакансиях')
+            print("В файле отсутствуют данные о вакансиях")
         else:
-            if number_vacancies is None or number_vacancies > len(
-                    list_vacancies
-                    ):
+            if number_vacancies is None or number_vacancies > len(list_vacancies):
                 number_vacancies = len(list_vacancies)
             for index in range(number_vacancies):
-                if list_vacancies[index]['_Vacancy__salary']:
+                if list_vacancies[index]["_Vacancy__salary"]:
                     print(
                         f"Профессия: {list_vacancies[index]['_Vacancy__title']}, зарплата до "
                         f"{list_vacancies[index]['_Vacancy__salary']}"
