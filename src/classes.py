@@ -20,7 +20,7 @@ class VacancyData(ABC):
     Абстрактный класс для работы с файлом для хранения вакансий.
     """
     @abstractmethod
-    def add_data_to file(self, vacancy):
+    def add_data_to_file(self, vacancy):
         pass
 
     @abstractmethod
