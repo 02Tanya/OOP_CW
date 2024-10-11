@@ -13,3 +13,20 @@ class VacancyAPI(ABC):
     @abstractmethod
     def get_vacancies(self, vacancy_title):
         pass
+
+
+class VacancyData(ABC):
+    """
+    Абстрактный класс для работы с файлом для хранения вакансий.
+    """
+    @abstractmethod
+    def add_vacancies(self, vacancy):
+        pass
+
+    @abstractmethod
+    def get_data_from_file(self):
+        pass
+
+    @abstractmethod
+    def remove_data_from_file(self):
+        pass
