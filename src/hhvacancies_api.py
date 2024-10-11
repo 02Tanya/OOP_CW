@@ -10,6 +10,7 @@ class HHVacancyAPI(VacancyAPI):
     def __init__(self, url=url_get):
         super().__init__(url)
 
+
     def get_vacancies(self, vacancy_title) -> list:
         params = {"text": vacancy_title, "per_page": self._count_vacancies}
         try:
@@ -22,7 +23,7 @@ class HHVacancyAPI(VacancyAPI):
             print(f"Ошибка получения данных: {error}")
 
 
-if __name__ == "__main__":
-    find = HHVacancyAPI()
-    vacancies = find.get_vacancies("java")
-    print(vacancies)
+# if __name__ == "__main__":
+#     find = HHVacancyAPI()
+#     vacancies = find.get_vacancies("java")
+#     print(vacancies)

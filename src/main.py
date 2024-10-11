@@ -31,9 +31,9 @@ def user_search():
             "6 - Вывести информацию о вакансиях из файла\n"
             "7 - Удалить информацию о вакансиях из файла\n"
             "8 - Новый поиск\n"
-            "9 - Выход\n")
-        user_input = input("\nУкажите номер выбранного Вами действия: ")
+            "9 - Выход")
         print("\u001b[0m")
+        user_input = input("Укажите номер выбранного Вами действия: ")
 
         if user_input == "1":
             Vacancy.print_formatted_vacancies_list(Vacancy.all)

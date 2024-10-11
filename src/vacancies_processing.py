@@ -95,6 +95,7 @@ class Vacancy:
             city = hh_vacancy["area"]["name"]
             cls(title, url, salary, salary_currency, date, city)
 
+
     @classmethod
     def data_from_json(cls, filename="../vacancies.json") -> None:
         '''Метод для инициализации экземпляров класса из json-файла'''
@@ -120,8 +121,7 @@ class Vacancy:
         '''Статический метод для фильтрации списка вакансий по заработной плате'''
         vacancies = []
         for vacancy in all_vacancies:
-            if vacancy.get("_Vacancy__salary") is not None and vacancy.get(
-                    "_Vacancy__salary_currency") == "RUR":
+            if vacancy.get("_Vacancy__salary") is not None and vacancy.get("_Vacancy__salary_currency") == "RUR":
                 vacancies.append(vacancy)
         return vacancies
 
@@ -148,6 +148,7 @@ class Vacancy:
             else:
                 vacancies_salary = []
         return vacancies_salary
+
 
     @staticmethod
     def sort_the_list(vacancies) -> list:
